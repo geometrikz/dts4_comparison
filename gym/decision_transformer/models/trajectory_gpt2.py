@@ -509,10 +509,10 @@ DEPARALLELIZE_DOCSTRING = r"""
 """
 
 
-@add_start_docstrings(
-    "The bare GPT2 Model transformer outputting raw hidden-states without any specific head on top.",
-    GPT2_START_DOCSTRING,
-)
+#@add_start_docstrings(
+#    "The bare GPT2 Model transformer outputting raw hidden-states without any specific head on top.",
+#    GPT2_START_DOCSTRING,
+#)
 class GPT2Model(GPT2PreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -520,7 +520,7 @@ class GPT2Model(GPT2PreTrainedModel):
         self.wte = nn.Embedding(config.vocab_size, config.n_embd)
         # self.wpe = nn.Embedding(config.n_positions, config.n_embd)
         self.drop = nn.Dropout(config.embd_pdrop)
-        self.h = nn.ModuleList([Block(config.n_ctx, config, scale=True) for _ in range(config.n_layer)])
+        self.h = nn.ModuleList([Block(config.n_positions, config, scale=True) for _ in range(config.n_layer)])
         self.ln_f = nn.LayerNorm(config.n_embd, eps=config.layer_norm_epsilon)
 
         self.init_weights()
@@ -583,12 +583,12 @@ class GPT2Model(GPT2PreTrainedModel):
             self.h[layer].attn.prune_heads(heads)
 
     @add_start_docstrings_to_model_forward(GPT2_INPUTS_DOCSTRING)
-    @add_code_sample_docstrings(
-        tokenizer_class=_TOKENIZER_FOR_DOC,
-        checkpoint="gpt2",
-        output_type=BaseModelOutputWithPastAndCrossAttentions,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    #@add_code_sample_docstrings(
+    #    tokenizer_class=_TOKENIZER_FOR_DOC,
+    #    checkpoint="gpt2",
+    #    output_type=BaseModelOutputWithPastAndCrossAttentions,
+    #    config_class=_CONFIG_FOR_DOC,
+    #)
     def forward(
             self,
             input_ids=None,
